@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import { tempMovieData } from "./movieData";
 import { tempWatchedData } from "./movieData";
 
@@ -10,11 +9,20 @@ const average = (arr) => arr.reduce((acc, cur, i, arr) => acc + cur / arr.length
  */
 export default function App() {
   const [movies, setMovies] = useState(tempMovieData);
-
   return (
     <>
-      <NavBar movies={movies} />
-      <Main movies={movies} />
+      <NavBar>
+        <Logo />
+        <Search />
+        <NumResults movies={movies} />
+      </NavBar>
+
+      <Main>
+        <ListBox>
+          <MovieList movies={movies} />
+        </ListBox>
+        <WatchedBox />
+      </Main>
     </>
   );
 }
@@ -22,14 +30,8 @@ export default function App() {
 /**
  * Navbar
  */
-function NavBar({ movies }) {
-  return (
-    <nav className="nav-bar">
-      <Logo />
-      <Search />
-      <NumResults movies={movies} />
-    </nav>
-  );
+function NavBar({ children }) {
+  return <nav className="nav-bar">{children}</nav>;
 }
 
 function Logo() {
@@ -65,24 +67,19 @@ function Search() {
 /**
  * Main
  */
-function Main({ movies }) {
-  return (
-    <main className="main">
-      <ListBox movies={movies} />
-      <WatchedBox />
-    </main>
-  );
+function Main({ children }) {
+  return <main className="main">{children}</main>;
 }
 
-function ListBox({ movies }) {
+function ListBox({ children }) {
   const [isOpen1, setIsOpen1] = useState(true);
-
   return (
     <div className="box">
       <button className="btn-toggle" onClick={() => setIsOpen1((open) => !open)}>
         {isOpen1 ? "–" : "+"}
       </button>
-      {isOpen1 && <MovieList movies={movies} />}
+
+      {isOpen1 && children}
     </div>
   );
 }
