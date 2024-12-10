@@ -105,7 +105,7 @@ export default function App() {
         {/* Movies List */}
         <Box>
           {/* {isLoading ? <Loader /> : <MovieList movies={movies} />} */}
-          {isLoading && <Loader>Loading movies..</Loader>}
+          {isLoading && <LoadingSpinner />}
           {!isLoading && !error && <MovieList movies={movies} onSelectMovie={handleSelectMovie} />}
           {error && <ErrorMessage message={error} />}
         </Box>
@@ -131,9 +131,9 @@ export default function App() {
   );
 }
 
-function Loader({ children }) {
-  return <p className="loader">{children}</p>;
-}
+// function Loader({ children }) {
+//   return <p className="loader">{children}</p>;
+// }
 
 function ErrorMessage({ message }) {
   return (
@@ -293,7 +293,8 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
   return (
     <div className="details">
       {isLoading ? (
-        <Loader>Loading movie..</Loader>
+        // <Loader>Loading movie..</Loader>
+        <LoadingSpinner />
       ) : (
         <>
           <header>
@@ -444,5 +445,15 @@ function WatchedMovie({ movie, onDeleteWatched }) {
         </button>
       </div>
     </li>
+  );
+}
+
+function LoadingSpinner() {
+  return (
+    <div
+      style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh" }}
+    >
+      <div className="spinner"></div>
+    </div>
   );
 }
